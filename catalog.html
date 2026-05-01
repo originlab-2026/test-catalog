@@ -10,9 +10,9 @@
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="logo">爱的解码测试</a>
+            <a href="#" class="logo">起源研究社</a>
             <ul class="nav-links">
-                <li><a href="index.html">首页</a></li>
+                <li><a href="#">首页</a></li>
                 <li><a href="catalog.html" class="active">测试合集</a></li>
             </ul>
         </div>
@@ -21,38 +21,32 @@
     <!-- 主内容区 -->
     <main class="container">
         <div class="hero fade-in" style="padding: 40px 20px;">
-            <h1>测试合集</h1>
-            <p class="subtitle">探索更多有趣的心理测试，了解真实的自己</p>
+            <h1>心理测试合集</h1>
+            <p class="subtitle">探索更多有趣内容，了解真实的自己</p>
         </div>
 
         <!-- 测试卡片网格 -->
         <div class="catalog-grid fade-in" id="catalog-grid">
             <!-- 爱的解码测试卡片 -->
-            <a href="index.html" class="catalog-card" id="current-quiz-card">
+            <a href="#" class="catalog-card" id="current-quiz-card">
                 <div class="catalog-card-image" style="padding: 0; overflow: hidden;">
-                    <img src="assets/images/首页.png" alt="爱的解码" style="width: 100%; height: 100%; object-fit: cover;">
+                    <img src="assets/images/爱的解码首页.png" alt="爱的解码" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <div class="catalog-card-content">
-                    <span style="display: inline-block; padding: 4px 12px; background: var(--secondary-color); 
-                                 color: var(--primary-color); border-radius: 20px; font-size: 0.75rem; margin-bottom: 8px;">
-                        当前测试
-                    </span>
-                    <h3 id="card-title">爱的解码</h3>
+
+                    <h3 id="card-title">你的爱表达方式是什么</h3>
                     <p id="card-desc">找到你发射和接收爱的信号</p>
                 </div>
             </a>
 
             <!-- 未来对象类型测试卡片 -->
             <a href="javascript:void(0)" class="catalog-card" id="future-partner-card" onclick="navigateToFuturePartner()">
-                <div class="catalog-card-image" style="background: linear-gradient(160deg, #FF8C94 0%, #FFB6C1 40%, #FFD3B6 100%); display: flex; align-items: center; justify-content: center;">
-                    <div style="text-align: center; color: white;">
-                        <div style="font-size: 2.5rem; margin-bottom: 8px;">💑</div>
-                        <div style="font-size: 1.1rem; font-weight: 700; text-shadow: 0 1px 4px rgba(0,0,0,0.15);">未来对象类型</div>
-                    </div>
+                <div class="catalog-card-image" style="padding: 0; overflow: hidden;">
+                    <img src="assets/images/未来伴侣首页.png" alt="未来对象类型" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <div class="catalog-card-content">
-                    <h3>你未来对象是什么类型</h3>
-                    <p>探索你心中理想伴侣的8种类型，发现你的爱情密码</p>
+                    <h3>你的未来对象是什么类型</h3>
+                    <p>探索你心目中理想伴侣的样子</p>
                 </div>
             </a>
             
@@ -95,11 +89,14 @@
         document.addEventListener('DOMContentLoaded', () => {
             applyUIConfig();
             
+            // 后台预检测所有平台可用性
+            preloadPlatformChecks();
+            
             // 检测当前部署平台并记录日志
             const platform = detectDeployPlatform();
-            console.log('当前部署平台:', platform);
-            console.log('当前部署URL:', getCurrentDeployUrl());
-            console.log('Gitee优先URL:', getGiteePriorityUrl());
+            console.log('[Deploy] 当前平台:', platform);
+            console.log('[Deploy] 当前URL:', getCurrentDeployUrl());
+            console.log('[Deploy] Gitee优先URL:', getGiteePriorityUrl());
         });
     </script>
 </body>
