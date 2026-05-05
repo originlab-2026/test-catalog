@@ -28,7 +28,7 @@
         <!-- 测试卡片网格 -->
         <div class="catalog-grid fade-in" id="catalog-grid">
             <!-- 爱的解码测试卡片 -->
-            <a href="#" class="catalog-card" id="current-quiz-card">
+            <a href="javascript:void(0)" class="catalog-card" id="current-quiz-card" onclick="navigateToLoveDecoding()">
                 <div class="catalog-card-image" style="padding: 0; overflow: hidden;">
                     <img src="assets/images/爱的解码首页.png" alt="爱的解码" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
@@ -77,6 +77,11 @@
     <script src="js/utils.js"></script>
     <script src="js/deploy-config.js"></script>
     <script>
+        async function navigateToLoveDecoding() {
+            const card = document.getElementById('current-quiz-card');
+            await navigateWithFallback('loveDecoding', card);
+        }
+
         // 跳转到未来伴侣测试 - 使用部署配置模块的Fallback机制
         async function navigateToFuturePartner() {
             const card = document.getElementById('future-partner-card');
