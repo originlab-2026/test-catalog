@@ -92,15 +92,6 @@
         // 页面加载完成后执行
         document.addEventListener('DOMContentLoaded', () => {
             applyUIConfig();
-            
-            // 后台预检测所有平台可用性
-            preloadPlatformChecks();
-            
-            // 检测当前部署平台并记录日志
-            const platform = detectDeployPlatform();
-            console.log('[Deploy] 当前平台:', platform);
-            console.log('[Deploy] 当前URL:', getCurrentDeployUrl());
-            console.log('[Deploy] Cloudflare 优先主站 URL:', getPrimaryDeployUrl());
         });
     </script>
 </body>
