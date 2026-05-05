@@ -1,6 +1,6 @@
 /**
- * 多平台部署配置与智能Fallback模块
- * 支持 Cloudflare Pages > Gitee Pages > GitHub Pages 优先级Fallback
+ * 多平台部署配置与智能 Fallback
+ * Cloudflare Pages 优先，GitHub Pages 备用（按 priority 选择，同优先级再比响应时间）
  *
  * 当前项目: 目录 (catalog)
  */
@@ -16,21 +16,12 @@ const DEPLOY_CONFIG = {
             baseUrl: 'https://<预留>.pages.dev/',
             hostnameIncludes: ['pages.dev'],
             checkPath: 'favicon.ico',
-            enabled: false
-        },
-        {
-            id: 'gitee',
-            name: 'Gitee Pages',
-            priority: 2,
-            baseUrl: 'https://originlab.gitee.io/test-catalog/',
-            hostnameIncludes: ['gitee.io'],
-            checkPath: 'favicon.ico',
             enabled: true
         },
         {
             id: 'github',
             name: 'GitHub Pages',
-            priority: 3,
+            priority: 2,
             baseUrl: 'https://originlab-2026.github.io/test-catalog/',
             hostnameIncludes: ['github.io'],
             checkPath: 'favicon.ico',
@@ -40,18 +31,15 @@ const DEPLOY_CONFIG = {
 
     external: {
         loveDecoding: {
-            cloudflare: 'https://<预留>.pages.dev/',
-            gitee: 'https://originlab.gitee.io/love-decoding-test/',
+            cloudflare: 'https://love-decoding-test.pages.dev/',
             github: 'https://originlab-2026.github.io/love-decoding-test/'
         },
         futurePartner: {
             cloudflare: 'https://<预留>.pages.dev/',
-            gitee: 'https://originlab.gitee.io/future-partner-test/',
             github: 'https://originlab-2026.github.io/future-partner-test/'
         },
         catalog: {
             cloudflare: 'https://<预留>.pages.dev/',
-            gitee: 'https://originlab.gitee.io/test-catalog/',
             github: 'https://originlab-2026.github.io/test-catalog/'
         }
     },
@@ -65,7 +53,11 @@ const DEPLOY_CONFIG = {
     }
 };
 
-const PLATFORM_CACHE_KEY = 'deploy_platform_cache_v2';
+const PLATFORM_CACHE_KEY = 'deploy_platform_cache_v3';
+
+function isPlaceholderDeployUrl(url) {
+    return !url || url.includes('<预留>');
+}
 
 function detectDeployPlatform() {
     const hostname = window.location.hostname;
@@ -95,6 +87,9 @@ function getCurrentDeployUrl() {
                 return `https://${hostname}/${parts[0]}/`;
             }
         }
+        if (platform === 'cloudflare') {
+            return window.location.origin + '/';
+        }
         return platformConfig.baseUrl;
     }
 
@@ -105,18 +100,38 @@ function getCurrentDeployUrl() {
     return 'https://' + hostname + '/';
 }
 
-function getGiteePriorityUrl() {
+function getPrimaryDeployUrl() {
     const platform = detectDeployPlatform();
-    if (platform === 'gitee') {
+    if (platform === 'cloudflare') {
         return getCurrentDeployUrl();
     }
-    const giteeConfig = DEPLOY_CONFIG.platforms.find(p => p.id === 'gitee');
-    return giteeConfig ? giteeConfig.baseUrl : getCurrentDeployUrl();
+    const cf = DEPLOY_CONFIG.platforms.find(p => p.id === 'cloudflare');
+    if (cf && cf.enabled && !isPlaceholderDeployUrl(cf.baseUrl)) {
+        return cf.baseUrl;
+    }
+    const gh = DEPLOY_CONFIG.platforms.find(p => p.id === 'github');
+    return gh ? gh.baseUrl : getCurrentDeployUrl();
+}
+
+function compareAvailabilityByPriority(a, b) {
+    const pa = DEPLOY_CONFIG.platforms.find(p => p.id === a.platformId);
+    const pb = DEPLOY_CONFIG.platforms.find(p => p.id === b.platformId);
+    const priA = pa ? pa.priority : 999;
+    const priB = pb ? pb.priority : 999;
+    if (priA !== priB) return priA - priB;
+    return a.responseTime - b.responseTime;
+}
+
+function firstEnabledPlatformBaseUrl() {
+    const ordered = [...DEPLOY_CONFIG.platforms]
+        .filter(p => p.enabled && !isPlaceholderDeployUrl(p.baseUrl))
+        .sort((a, b) => a.priority - b.priority);
+    return ordered[0] ? ordered[0].baseUrl : '';
 }
 
 async function checkPlatformAvailability(platformId, timeout = DEPLOY_CONFIG.detection.timeout) {
     const platform = DEPLOY_CONFIG.platforms.find(p => p.id === platformId);
-    if (!platform || !platform.enabled) {
+    if (!platform || !platform.enabled || isPlaceholderDeployUrl(platform.baseUrl)) {
         return { available: false, responseTime: Infinity };
     }
 
@@ -192,7 +207,7 @@ async function checkAllPlatforms() {
 
     const available = results
         .filter(r => r.available)
-        .sort((a, b) => a.responseTime - b.responseTime);
+        .sort(compareAvailabilityByPriority);
 
     console.log('[DeployConfig] Available platforms:', available.map(r => `${r.platformId}(${r.responseTime.toFixed(0)}ms)`).join(', ') || 'none');
     return available;
@@ -230,8 +245,7 @@ async function getFallbackUrl() {
     if (results.length > 0) {
         return results[0].url;
     }
-    const fallback = DEPLOY_CONFIG.platforms.find(p => p.enabled);
-    return fallback ? fallback.baseUrl : '';
+    return firstEnabledPlatformBaseUrl();
 }
 
 async function getBestAvailableUrl(target = null) {
@@ -245,8 +259,19 @@ async function getBestAvailableUrl(target = null) {
 
     if (results.length === 0) {
         console.error('[DeployConfig] No platforms available!');
-        const fallback = DEPLOY_CONFIG.platforms.find(p => p.enabled);
-        return fallback ? fallback.baseUrl : null;
+        if (target) {
+            const externalUrls = DEPLOY_CONFIG.external[target];
+            if (externalUrls) {
+                const ordered = [...DEPLOY_CONFIG.platforms].sort((a, b) => a.priority - b.priority);
+                for (const platform of ordered) {
+                    const u = externalUrls[platform.id];
+                    if (u && !isPlaceholderDeployUrl(u)) {
+                        return u;
+                    }
+                }
+            }
+        }
+        return firstEnabledPlatformBaseUrl() || null;
     }
 
     if (target) {
@@ -257,20 +282,29 @@ async function getBestAvailableUrl(target = null) {
         }
 
         for (const result of results) {
-            if (externalUrls[result.platformId]) {
-                console.log(`[DeployConfig] Best URL for ${target}:`, externalUrls[result.platformId]);
-                return externalUrls[result.platformId];
+            const u = externalUrls[result.platformId];
+            if (u && !isPlaceholderDeployUrl(u)) {
+                console.log(`[DeployConfig] Best URL for ${target}:`, u);
+                return u;
             }
         }
 
-        for (const platform of DEPLOY_CONFIG.platforms) {
-            if (externalUrls[platform.id]) {
-                console.warn(`[DeployConfig] Using fallback URL for ${target}:`, externalUrls[platform.id]);
-                return externalUrls[platform.id];
+        const ordered = [...DEPLOY_CONFIG.platforms].sort((a, b) => a.priority - b.priority);
+        for (const platform of ordered) {
+            const u = externalUrls[platform.id];
+            if (u && !isPlaceholderDeployUrl(u)) {
+                console.warn(`[DeployConfig] Using fallback URL for ${target}:`, u);
+                return u;
             }
         }
     } else {
-        return results[0].url;
+        const winner = results[0];
+        const p = DEPLOY_CONFIG.platforms.find(x => x.id === winner.platformId);
+        if (p && !isPlaceholderDeployUrl(p.baseUrl)) {
+            return winner.url;
+        }
+        const fb = firstEnabledPlatformBaseUrl();
+        return fb || null;
     }
 
     return null;
@@ -325,7 +359,7 @@ if (typeof module !== 'undefined' && module.exports) {
         DEPLOY_CONFIG,
         detectDeployPlatform,
         getCurrentDeployUrl,
-        getGiteePriorityUrl,
+        getPrimaryDeployUrl,
         checkPlatformAvailability,
         checkAllPlatforms,
         getFallbackUrl,
