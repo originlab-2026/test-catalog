@@ -8,9 +8,9 @@
  */
 const DefaultUIConfig = {
     theme: 'default',
-    primaryColor: '#FF8C94',
-    secondaryColor: '#FFD3B6',
-    backgroundColor: '#FFF5F5',
+    primaryColor: '#3a3a3a',
+    secondaryColor: '#9ca3af',
+    backgroundColor: '#e8eaed',
     fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif',
     fontSize: {
         title: '2rem',

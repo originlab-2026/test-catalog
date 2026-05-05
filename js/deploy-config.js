@@ -35,7 +35,7 @@ const DEPLOY_CONFIG = {
             github: 'https://originlab-2026.github.io/love-decoding-test/'
         },
         futurePartner: {
-            cloudflare: 'https://<预留>.pages.dev/',
+            cloudflare: 'https://future-partner-test.pages.dev/',
             github: 'https://originlab-2026.github.io/future-partner-test/'
         },
         catalog: {
@@ -248,7 +248,120 @@ async function getFallbackUrl() {
     return firstEnabledPlatformBaseUrl();
 }
 
+const EXTERNAL_TARGET_CACHE_PREFIX = 'deploy_external_target_v1_';
+const EXTERNAL_TARGET_CACHE_TTL_MS = 120000;
+
+/** 探测任意绝对 URL 是否可达（与外链站点健康检查一致） */
+async function checkAbsoluteUrlReachable(fullCheckUrl, timeout = DEPLOY_CONFIG.detection.timeout) {
+    const startTime = performance.now();
+    if (DEPLOY_CONFIG.detection.useHeadRequest) {
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), timeout);
+            await fetch(fullCheckUrl, {
+                method: 'HEAD',
+                mode: 'no-cors',
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+            console.log(`[DeployConfig] URL reachable (HEAD): ${fullCheckUrl} (${(performance.now() - startTime).toFixed(0)}ms)`);
+            return true;
+        } catch (e) {
+            console.log(`[DeployConfig] HEAD failed for ${fullCheckUrl}`);
+        }
+    }
+    if (DEPLOY_CONFIG.detection.useImageFallback) {
+        return new Promise((resolve) => {
+            const img = new Image();
+            let resolved = false;
+            const timer = setTimeout(() => {
+                if (!resolved) {
+                    resolved = true;
+                    resolve(false);
+                }
+            }, timeout);
+            img.onload = () => {
+                if (!resolved) {
+                    resolved = true;
+                    clearTimeout(timer);
+                    resolve(true);
+                }
+            };
+            img.onerror = () => {
+                if (!resolved) {
+                    resolved = true;
+                    clearTimeout(timer);
+                    resolve(false);
+                }
+            };
+            img.src = fullCheckUrl;
+        });
+    }
+    return false;
+}
+
+/**
+ * 卡片跳转：对「目标仓库」的 Cloudflare 做可达性探测，失败再用 GitHub。
+ * 不再使用目录站自身的 platforms 检测结果映射外链（此前会导致误判）。
+ */
+async function getBestExternalDeployUrl(target) {
+    const ext = DEPLOY_CONFIG.external[target];
+    if (!ext) {
+        console.error('[DeployConfig] Unknown external target:', target);
+        return null;
+    }
+
+    const cacheKey = EXTERNAL_TARGET_CACHE_PREFIX + target;
+    try {
+        const raw = sessionStorage.getItem(cacheKey);
+        if (raw) {
+            const { url, ts } = JSON.parse(raw);
+            if (Date.now() - ts < EXTERNAL_TARGET_CACHE_TTL_MS && url) {
+                console.log('[DeployConfig] Using cached external URL for', target, url);
+                return url;
+            }
+        }
+    } catch (e) {
+        /* ignore */
+    }
+
+    const cfBase = (ext.cloudflare || '').replace(/\/?$/, '/');
+    const ghBase = (ext.github || '').replace(/\/?$/, '/');
+
+    let chosen = null;
+    if (cfBase && !isPlaceholderDeployUrl(ext.cloudflare)) {
+        const probe = cfBase + 'favicon.ico?' + Date.now();
+        const ok = await checkAbsoluteUrlReachable(probe);
+        if (ok) {
+            chosen = cfBase;
+            console.log(`[DeployConfig] ${target}: using Cloudflare`);
+        } else {
+            console.log(`[DeployConfig] ${target}: Cloudflare probe failed`);
+        }
+    }
+    if (!chosen && ghBase && !isPlaceholderDeployUrl(ext.github)) {
+        chosen = ghBase;
+        console.log(`[DeployConfig] ${target}: using GitHub fallback`);
+    }
+    if (!chosen && cfBase && !isPlaceholderDeployUrl(ext.cloudflare)) {
+        chosen = cfBase;
+    }
+
+    if (chosen) {
+        try {
+            sessionStorage.setItem(cacheKey, JSON.stringify({ url: chosen, ts: Date.now() }));
+        } catch (e) {
+            /* ignore */
+        }
+    }
+    return chosen || null;
+}
+
 async function getBestAvailableUrl(target = null) {
+    if (target && DEPLOY_CONFIG.external[target]) {
+        return getBestExternalDeployUrl(target);
+    }
+
     let results = getCachedResults();
 
     if (!results) {
@@ -259,55 +372,16 @@ async function getBestAvailableUrl(target = null) {
 
     if (results.length === 0) {
         console.error('[DeployConfig] No platforms available!');
-        if (target) {
-            const externalUrls = DEPLOY_CONFIG.external[target];
-            if (externalUrls) {
-                const ordered = [...DEPLOY_CONFIG.platforms].sort((a, b) => a.priority - b.priority);
-                for (const platform of ordered) {
-                    const u = externalUrls[platform.id];
-                    if (u && !isPlaceholderDeployUrl(u)) {
-                        return u;
-                    }
-                }
-            }
-        }
         return firstEnabledPlatformBaseUrl() || null;
     }
 
-    if (target) {
-        const externalUrls = DEPLOY_CONFIG.external[target];
-        if (!externalUrls) {
-            console.error('[DeployConfig] Unknown target:', target);
-            return null;
-        }
-
-        for (const result of results) {
-            const u = externalUrls[result.platformId];
-            if (u && !isPlaceholderDeployUrl(u)) {
-                console.log(`[DeployConfig] Best URL for ${target}:`, u);
-                return u;
-            }
-        }
-
-        const ordered = [...DEPLOY_CONFIG.platforms].sort((a, b) => a.priority - b.priority);
-        for (const platform of ordered) {
-            const u = externalUrls[platform.id];
-            if (u && !isPlaceholderDeployUrl(u)) {
-                console.warn(`[DeployConfig] Using fallback URL for ${target}:`, u);
-                return u;
-            }
-        }
-    } else {
-        const winner = results[0];
-        const p = DEPLOY_CONFIG.platforms.find(x => x.id === winner.platformId);
-        if (p && !isPlaceholderDeployUrl(p.baseUrl)) {
-            return winner.url;
-        }
-        const fb = firstEnabledPlatformBaseUrl();
-        return fb || null;
+    const winner = results[0];
+    const p = DEPLOY_CONFIG.platforms.find(x => x.id === winner.platformId);
+    if (p && !isPlaceholderDeployUrl(p.baseUrl)) {
+        return winner.url;
     }
-
-    return null;
+    const fb = firstEnabledPlatformBaseUrl();
+    return fb || null;
 }
 
 async function navigateWithFallback(target, triggerElement = null) {
@@ -362,6 +436,8 @@ if (typeof module !== 'undefined' && module.exports) {
         getPrimaryDeployUrl,
         checkPlatformAvailability,
         checkAllPlatforms,
+        checkAbsoluteUrlReachable,
+        getBestExternalDeployUrl,
         getFallbackUrl,
         getBestAvailableUrl,
         navigateWithFallback,
