@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>测试合集 - 心理测试</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preload" as="image" href="assets/images/爱的解码首页.webp?v=5" type="image/webp">
 </head>
 <body>
     <!-- 导航栏 -->
@@ -29,7 +30,10 @@
             <!-- 爱的解码测试卡片 -->
             <a href="javascript:void(0)" class="catalog-card" id="current-quiz-card" onclick="navigateToLoveDecoding()">
                 <div class="catalog-card-image" style="padding: 0; overflow: hidden;">
-                    <img src="assets/images/爱的解码首页.png" alt="爱的解码" style="width: 100%; height: 100%; object-fit: cover;">
+                    <picture>
+                        <source type="image/webp" srcset="assets/images/爱的解码首页.webp?v=5">
+                        <img src="assets/images/爱的解码首页.png?v=5" alt="爱的解码" style="width: 100%; height: 100%; object-fit: cover;" loading="eager" fetchpriority="high" decoding="async">
+                    </picture>
                 </div>
                 <div class="catalog-card-content">
 
@@ -41,7 +45,10 @@
             <!-- 未来对象类型测试卡片 -->
             <a href="javascript:void(0)" class="catalog-card" id="future-partner-card" onclick="navigateToFuturePartner()">
                 <div class="catalog-card-image" style="padding: 0; overflow: hidden;">
-                    <img src="assets/images/未来伴侣首页.png" alt="未来对象类型" style="width: 100%; height: 100%; object-fit: cover;">
+                    <picture>
+                        <source type="image/webp" srcset="assets/images/未来伴侣首页.webp?v=5">
+                        <img src="assets/images/未来伴侣首页.png?v=5" alt="未来对象类型" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" decoding="async">
+                    </picture>
                 </div>
                 <div class="catalog-card-content">
                     <h3>你的未来对象是什么类型</h3>
