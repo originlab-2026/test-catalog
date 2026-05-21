@@ -28,6 +28,9 @@ pids
 dist/
 build/
 
+# Image optimization dev tooling (run locally; not deployed)
+image-tools/
+
 # Temporary files
 *.tmp
 *.temp
