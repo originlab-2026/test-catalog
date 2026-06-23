@@ -14,6 +14,10 @@ const DEPLOY_CONFIG = {
         futurePartner: {
             cloudflare: 'https://future-partner-test.pages.dev/',
             github: 'https://originlab-2026.github.io/future-partner-test/'
+        },
+        stressCreature: {
+            cloudflare: 'https://stress-creature-test.pages.dev/',
+            github: 'https://originlab-2026.github.io/stress-creature-test/'
         }
     },
 

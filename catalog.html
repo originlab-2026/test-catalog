@@ -56,6 +56,20 @@
                 </div>
             </a>
             
+            <!-- 压力神秘生物测试卡片 -->
+            <a href="javascript:void(0)" class="catalog-card" id="stress-creature-card" onclick="navigateToStressCreature()">
+                <div class="catalog-card-image" style="padding: 0; overflow: hidden;">
+                    <picture>
+                        <source type="image/webp" srcset="assets/images/压力生物首页.webp?v=5">
+                        <img src="assets/images/压力生物首页.png?v=5" alt="压力神秘生物" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="catalog-card-content">
+                    <h3>你的压力是哪种神秘生物</h3>
+                    <p>发现你内心压力的神秘化身</p>
+                </div>
+            </a>
+            
             <!-- 更多测试卡片 -->
             <div class="catalog-card" style="cursor: default;">
                 <div class="catalog-card-image" style="background: linear-gradient(135deg, #f5f5f5, #e8e8e8); display: flex; align-items: center; justify-content: center;">
@@ -88,12 +102,14 @@
             await navigateWithFallback('loveDecoding', card);
         }
 
-        // 跳转到未来伴侣测试 - 使用部署配置模块的Fallback机制
         async function navigateToFuturePartner() {
             const card = document.getElementById('future-partner-card');
-            
-            // 使用部署配置模块的navigateWithFallback函数
             await navigateWithFallback('futurePartner', card);
+        }
+
+        async function navigateToStressCreature() {
+            const card = document.getElementById('stress-creature-card');
+            await navigateWithFallback('stressCreature', card);
         }
 
         // 页面加载完成后执行
