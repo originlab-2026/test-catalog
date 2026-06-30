@@ -163,56 +163,21 @@ p {
 .catalog-card--love-decoding {
     --catalog-cover-bg: #fff5f5;
     --catalog-cover-ratio: 1100 / 565;
-    background: var(--catalog-cover-bg);
-    border-color: rgba(255, 140, 148, 0.15);
 }
 
 .catalog-card--future-partner {
     --catalog-cover-bg: #77a139;
     --catalog-cover-ratio: 1100 / 618;
-    background: var(--catalog-cover-bg);
-    border-color: rgba(0, 0, 0, 0.08);
-}
-
-.catalog-card--future-partner .catalog-card-content h3 {
-    color: #ffffff;
-}
-
-.catalog-card--future-partner .catalog-card-content p {
-    color: rgba(255, 255, 255, 0.88);
-}
-
-.catalog-card--future-partner .catalog-card-content {
-    background: var(--catalog-cover-bg);
 }
 
 .catalog-card--stress-creature {
-    --catalog-cover-bg: #000000;
+    --catalog-cover-bg: #fdf8ef;
     --catalog-cover-ratio: 1366 / 768;
-    background: var(--catalog-cover-bg);
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-.catalog-card--stress-creature .catalog-card-content h3,
-.catalog-card--perfect-city .catalog-card-content h3 {
-    color: #ffffff;
-}
-
-.catalog-card--stress-creature .catalog-card-content p,
-.catalog-card--perfect-city .catalog-card-content p {
-    color: rgba(255, 255, 255, 0.78);
-}
-
-.catalog-card--stress-creature .catalog-card-content,
-.catalog-card--perfect-city .catalog-card-content {
-    background: var(--catalog-cover-bg);
 }
 
 .catalog-card--perfect-city {
-    --catalog-cover-bg: #000000;
+    --catalog-cover-bg: #5654b8;
     --catalog-cover-ratio: 1366 / 702;
-    background: var(--catalog-cover-bg);
-    border-color: rgba(255, 255, 255, 0.1);
 }
 
 .catalog-card:hover {
@@ -245,16 +210,9 @@ p {
     display: block;
 }
 
-.catalog-card--love-decoding .catalog-card-image {
-    background: var(--catalog-cover-bg);
-}
-
-.catalog-card--love-decoding .catalog-card-content {
-    background: var(--catalog-cover-bg);
-}
-
 .catalog-card-content {
     padding: 20px 24px 24px;
+    background: var(--card-surface);
 }
 
 .catalog-card h3 {
