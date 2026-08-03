@@ -31,16 +31,16 @@ const DEPLOY_CONFIG = {
             cloudflare: 'https://ancient-title-test.pages.dev/',
             github: 'https://originlab-2026.github.io/ancient-title-test/'
         },
-        talent: {
-            cloudflare: 'https://talent-test-42m.pages.dev/',
-            github: 'https://originlab-2026.github.io/talent-test/'
+        strengthCompass: {
+            cloudflare: 'https://strength-compass.pages.dev/',
+            github: 'https://originlab-2026.github.io/strength-compass/'
         }
     },
 
     /** 占位封面 SHA256（与 image-tools/placeholder-manifest.json 同步）；换正式图后自动上线 */
     catalogCards: {
-        talent: {
-            cardId: 'talent-card',
+        strengthCompass: {
+            cardId: 'strength-compass-card',
             coverImage: 'assets/images/天赋自测首页.png',
             placeholderSha256: '9ce2133ec7470dfc596d03321e3bc9a938fb86febf36e1ebb6fee876ec7e3335',
             version: '1'

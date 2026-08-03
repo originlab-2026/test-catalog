@@ -112,7 +112,7 @@
             </a>
 
             <!-- 天赋自测卡片 -->
-            <a href="javascript:void(0)" class="catalog-card catalog-card--talent catalog-card--coming-soon" id="talent-card" data-live="0" aria-disabled="true" onclick="navigateToTalent()">
+            <a href="javascript:void(0)" class="catalog-card catalog-card--strength-compass catalog-card--coming-soon" id="strength-compass-card" data-live="0" aria-disabled="true" onclick="navigateToStrengthCompass()">
                 <div class="catalog-card-image">
                     <picture>
                         <source type="image/webp" srcset="assets/images/天赋自测首页.webp?v=1">
@@ -172,8 +172,8 @@
         }
 
 
-        async function navigateToTalent() {
-            await navigateCatalogCard('talent', 'talent-card');
+        async function navigateToStrengthCompass() {
+            await navigateCatalogCard('strengthCompass', 'strength-compass-card');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
