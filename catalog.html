@@ -110,6 +110,20 @@
                     <p>发现你的古代职场基因</p>
                 </div>
             </a>
+
+            <!-- 天赋自测卡片 -->
+            <a href="javascript:void(0)" class="catalog-card catalog-card--talent catalog-card--coming-soon" id="talent-card" data-live="0" aria-disabled="true" onclick="navigateToTalent()">
+                <div class="catalog-card-image">
+                    <picture>
+                        <source type="image/webp" srcset="assets/images/天赋自测首页.webp?v=1">
+                        <img src="assets/images/天赋自测首页.png?v=1" alt="测一测你的天赋" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="catalog-card-content">
+                    <h3>测一测你的天赋</h3>
+                    <p>发现你最自然的能力类型</p>
+                </div>
+            </a>
         </div>
     </main>
 
@@ -155,6 +169,11 @@
 
         async function navigateToAncientTitle() {
             await navigateCatalogCard('ancientTitle', 'ancient-title-card');
+        }
+
+
+        async function navigateToTalent() {
+            await navigateCatalogCard('talent', 'talent-card');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
