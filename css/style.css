@@ -190,7 +190,7 @@ p {
     --catalog-cover-ratio: 1366 / 702;
 }
 
-.catalog-card--strength-compass {
+.catalog-card--strength-compass-test {
     --catalog-cover-bg: #e8e8e8;
     --catalog-cover-ratio: 1366 / 702;
 }

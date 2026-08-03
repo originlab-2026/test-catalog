@@ -112,7 +112,7 @@
             </a>
 
             <!-- 天赋自测卡片 -->
-            <a href="javascript:void(0)" class="catalog-card catalog-card--strength-compass catalog-card--coming-soon" id="strength-compass-card" data-live="0" aria-disabled="true" onclick="navigateToStrengthCompass()">
+            <a href="javascript:void(0)" class="catalog-card catalog-card--strength-compass-test catalog-card--coming-soon" id="strength-compass-test-card" data-live="0" aria-disabled="true" onclick="navigateToStrengthCompassTest()">
                 <div class="catalog-card-image">
                     <picture>
                         <source type="image/webp" srcset="assets/images/天赋自测首页.webp?v=1">
@@ -122,6 +122,20 @@
                 <div class="catalog-card-content">
                     <h3>测一测你的天赋</h3>
                     <p>发现你最自然的能力类型</p>
+                </div>
+            </a>
+
+            <!-- 依恋类型卡片 -->
+            <a href="javascript:void(0)" class="catalog-card catalog-card--attachment-style catalog-card--coming-soon" id="attachment-style-card" data-live="0" aria-disabled="true" onclick="navigateToAttachmentStyle()">
+                <div class="catalog-card-image">
+                    <picture>
+                        <source type="image/webp" srcset="assets/images/依恋类型首页.webp?v=1">
+                        <img src="assets/images/依恋类型首页.png?v=1" alt="测一测你的依恋类型" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="catalog-card-content">
+                    <h3>测一测你的依恋类型</h3>
+                    <p>发现你在爱里的底层操作系统</p>
                 </div>
             </a>
         </div>
@@ -172,8 +186,12 @@
         }
 
 
-        async function navigateToStrengthCompass() {
-            await navigateCatalogCard('strengthCompass', 'strength-compass-card');
+        async function navigateToStrengthCompassTest() {
+            await navigateCatalogCard('strengthCompass', 'strength-compass-test-card');
+        }
+
+        async function navigateToAttachmentStyle() {
+            await navigateCatalogCard('attachmentStyle', 'attachment-style-card');
         }
 
         document.addEventListener('DOMContentLoaded', () => {

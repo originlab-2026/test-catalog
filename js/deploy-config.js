@@ -32,15 +32,19 @@ const DEPLOY_CONFIG = {
             github: 'https://originlab-2026.github.io/ancient-title-test/'
         },
         strengthCompass: {
-            cloudflare: 'https://strength-compass.pages.dev/',
-            github: 'https://originlab-2026.github.io/strength-compass/'
+            cloudflare: 'https://strength-compass-test.pages.dev/',
+            github: 'https://originlab-2026.github.io/strength-compass-test/'
+        },
+        attachmentStyle: {
+            cloudflare: 'https://attachment-style-test.pages.dev/',
+            github: 'https://originlab-2026.github.io/attachment-style-test/'
         }
     },
 
     /** 占位封面 SHA256（与 image-tools/placeholder-manifest.json 同步）；换正式图后自动上线 */
     catalogCards: {
         strengthCompass: {
-            cardId: 'strength-compass-card',
+            cardId: 'strength-compass-test-card',
             coverImage: 'assets/images/天赋自测首页.png',
             placeholderSha256: '9ce2133ec7470dfc596d03321e3bc9a938fb86febf36e1ebb6fee876ec7e3335',
             version: '1'
@@ -55,6 +59,12 @@ const DEPLOY_CONFIG = {
             cardId: 'ancient-title-card',
             coverImage: 'assets/images/古代官衔首页.png',
             placeholderSha256: '9ce2133ec7470dfc596d03321e3bc9a938fb86febf36e1ebb6fee876ec7e3335',
+            version: '1'
+        },
+        attachmentStyle: {
+            cardId: 'attachment-style-card',
+            coverImage: 'assets/images/依恋类型首页.png',
+            placeholderSha256: '5623906ffc9f7f54d3e6be5856a134f01e4241fc3e543137b8ae2fd225e279a2',
             version: '1'
         }
     },
