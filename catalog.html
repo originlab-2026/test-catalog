@@ -96,6 +96,20 @@
                     <p>探索你目前的婚姻准备状态</p>
                 </div>
             </a>
+
+            <!-- 古代官衔测试卡片 -->
+            <a href="javascript:void(0)" class="catalog-card catalog-card--ancient-title catalog-card--coming-soon" id="ancient-title-card" data-live="0" aria-disabled="true" onclick="navigateToAncientTitle()">
+                <div class="catalog-card-image">
+                    <picture>
+                        <source type="image/webp" srcset="assets/images/古代官衔首页.webp?v=1">
+                        <img src="assets/images/古代官衔首页.png?v=1" alt="你在古代的职场官衔是什么" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="catalog-card-content">
+                    <h3>你在古代的职场官衔是什么</h3>
+                    <p>发现你的古代职场基因</p>
+                </div>
+            </a>
         </div>
     </main>
 
@@ -137,6 +151,10 @@
 
         async function navigateToMarriageReadiness() {
             await navigateCatalogCard('marriageReadiness', 'marriage-readiness-card');
+        }
+
+        async function navigateToAncientTitle() {
+            await navigateCatalogCard('ancientTitle', 'ancient-title-card');
         }
 
         document.addEventListener('DOMContentLoaded', () => {

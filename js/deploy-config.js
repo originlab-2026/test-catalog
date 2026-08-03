@@ -26,6 +26,10 @@ const DEPLOY_CONFIG = {
         marriageReadiness: {
             cloudflare: 'https://marriage-readiness-test.pages.dev/',
             github: 'https://originlab-2026.github.io/marriage-readiness-test/'
+        },
+        ancientTitle: {
+            cloudflare: 'https://ancient-title-test.pages.dev/',
+            github: 'https://originlab-2026.github.io/ancient-title-test/'
         }
     },
 
@@ -35,6 +39,12 @@ const DEPLOY_CONFIG = {
             cardId: 'marriage-readiness-card',
             coverImage: 'assets/images/结婚准备首页.png',
             placeholderSha256: '008a4517775041e762ba007e2c1114a09bdf4fd258b10497ee593cf849fec538',
+            version: '1'
+        },
+        ancientTitle: {
+            cardId: 'ancient-title-card',
+            coverImage: 'assets/images/古代官衔首页.png',
+            placeholderSha256: '9ce2133ec7470dfc596d03321e3bc9a938fb86febf36e1ebb6fee876ec7e3335',
             version: '1'
         }
     },
