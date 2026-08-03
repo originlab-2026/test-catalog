@@ -34,3 +34,5 @@ image-tools/
 # Temporary files
 *.tmp
 *.temp
+
+.wrangler/
