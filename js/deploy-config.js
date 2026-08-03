@@ -35,9 +35,9 @@ const DEPLOY_CONFIG = {
             cloudflare: 'https://strength-compass-test.pages.dev/',
             github: 'https://originlab-2026.github.io/strength-compass-test/'
         },
-        attachmentStyle: {
-            cloudflare: 'https://attachment-style-test-d60.pages.dev/',
-            github: 'https://originlab-2026.github.io/attachment-style-test/'
+        bondType: {
+            cloudflare: 'https://bond-type-test.pages.dev/',
+            github: 'https://originlab-2026.github.io/bond-type-test/'
         }
     },
 
@@ -61,8 +61,8 @@ const DEPLOY_CONFIG = {
             placeholderSha256: '9ce2133ec7470dfc596d03321e3bc9a938fb86febf36e1ebb6fee876ec7e3335',
             version: '1'
         },
-        attachmentStyle: {
-            cardId: 'attachment-style-card',
+        bondType: {
+            cardId: 'bond-type-card',
             coverImage: 'assets/images/依恋类型首页.png',
             placeholderSha256: '5623906ffc9f7f54d3e6be5856a134f01e4241fc3e543137b8ae2fd225e279a2',
             version: '1'

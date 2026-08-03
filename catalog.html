@@ -126,7 +126,7 @@
             </a>
 
             <!-- 依恋类型卡片 -->
-            <a href="javascript:void(0)" class="catalog-card catalog-card--attachment-style catalog-card--coming-soon" id="attachment-style-card" data-live="0" aria-disabled="true" onclick="navigateToAttachmentStyle()">
+            <a href="javascript:void(0)" class="catalog-card catalog-card--bond-type catalog-card--coming-soon" id="bond-type-card" data-live="0" aria-disabled="true" onclick="navigateToBondType()">
                 <div class="catalog-card-image">
                     <picture>
                         <source type="image/webp" srcset="assets/images/依恋类型首页.webp?v=1">
@@ -190,8 +190,8 @@
             await navigateCatalogCard('strengthCompass', 'strength-compass-test-card');
         }
 
-        async function navigateToAttachmentStyle() {
-            await navigateCatalogCard('attachmentStyle', 'attachment-style-card');
+        async function navigateToBondType() {
+            await navigateCatalogCard('bondType', 'bond-type-card');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
