@@ -83,15 +83,19 @@
                 </div>
             </a>
             
-            <!-- 更多测试卡片 -->
-            <div class="catalog-card" style="cursor: default;">
-                <div class="catalog-card-image" style="background: linear-gradient(135deg, #f5f5f5, #e8e8e8);">
+            <!-- 结婚准备测试卡片 -->
+            <a href="javascript:void(0)" class="catalog-card catalog-card--marriage-readiness catalog-card--coming-soon" id="marriage-readiness-card" data-live="0" aria-disabled="true" onclick="navigateToMarriageReadiness()">
+                <div class="catalog-card-image">
+                    <picture>
+                        <source type="image/webp" srcset="assets/images/结婚准备首页.webp?v=1">
+                        <img src="assets/images/结婚准备首页.png?v=1" alt="你适不适合结婚" loading="lazy" decoding="async">
+                    </picture>
                 </div>
                 <div class="catalog-card-content">
-                    <h3 style="color: #999;">更多心理测试</h3>
-                    <p style="color: #aaa;">正在筹备中，敬请期待！</p>
+                    <h3>你适不适合结婚</h3>
+                    <p>探索你目前的婚姻准备状态</p>
                 </div>
-            </div>
+            </a>
         </div>
     </main>
 
@@ -109,6 +113,7 @@
 
     <script src="js/utils.js"></script>
     <script src="js/deploy-config.js"></script>
+    <script src="js/catalog-cards.js"></script>
     <script>
         async function navigateToLoveDecoding() {
             const card = document.getElementById('current-quiz-card');
@@ -130,8 +135,13 @@
             await navigateWithFallback('perfectCity', card);
         }
 
+        async function navigateToMarriageReadiness() {
+            await navigateCatalogCard('marriageReadiness', 'marriage-readiness-card');
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             applyUIConfig();
+            initCatalogComingSoonCards();
         });
     </script>
 </body>

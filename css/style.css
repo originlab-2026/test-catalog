@@ -180,6 +180,26 @@ p {
     --catalog-cover-ratio: 1366 / 702;
 }
 
+.catalog-card--marriage-readiness {
+    --catalog-cover-bg: #e8e8e8;
+    --catalog-cover-ratio: 1366 / 702;
+}
+
+.catalog-card--coming-soon {
+    cursor: default;
+    opacity: 0.92;
+}
+
+.catalog-card--coming-soon:hover {
+    transform: none;
+    box-shadow: var(--shadow);
+}
+
+.catalog-card--coming-soon .catalog-card-content p::after {
+    content: ' · 敬请期待';
+    color: #aaa;
+}
+
 .catalog-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-hover);
