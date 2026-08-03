@@ -32,7 +32,7 @@ const DEPLOY_CONFIG = {
             github: 'https://originlab-2026.github.io/ancient-title-test/'
         },
         talent: {
-            cloudflare: 'https://talent-test.pages.dev/',
+            cloudflare: 'https://talent-test-42m.pages.dev/',
             github: 'https://originlab-2026.github.io/talent-test/'
         }
     },
