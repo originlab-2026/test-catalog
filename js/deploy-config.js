@@ -36,7 +36,7 @@ const DEPLOY_CONFIG = {
             github: 'https://originlab-2026.github.io/strength-compass-test/'
         },
         attachmentStyle: {
-            cloudflare: 'https://attachment-style-test.pages.dev/',
+            cloudflare: 'https://attachment-style-test-d60.pages.dev/',
             github: 'https://originlab-2026.github.io/attachment-style-test/'
         }
     },
