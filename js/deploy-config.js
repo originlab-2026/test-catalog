@@ -53,7 +53,7 @@ const DEPLOY_CONFIG = {
             cardId: 'marriage-readiness-card',
             coverImage: 'assets/images/结婚准备首页.png',
             placeholderSha256: '008a4517775041e762ba007e2c1114a09bdf4fd258b10497ee593cf849fec538',
-            version: '1'
+            version: '2'
         },
         ancientTitle: {
             cardId: 'ancient-title-card',
