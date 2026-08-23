@@ -186,8 +186,8 @@ p {
 }
 
 .catalog-card--ancient-title {
-    --catalog-cover-bg: #e8e8e8;
-    --catalog-cover-ratio: 1366 / 702;
+    --catalog-cover-bg: #b84040;
+    --catalog-cover-ratio: 1366 / 808;
 }
 
 .catalog-card--strength-compass-test {
