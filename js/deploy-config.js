@@ -59,7 +59,7 @@ const DEPLOY_CONFIG = {
             cardId: 'ancient-title-card',
             coverImage: 'assets/images/古代官衔首页.png',
             placeholderSha256: '9ce2133ec7470dfc596d03321e3bc9a938fb86febf36e1ebb6fee876ec7e3335',
-            version: '2'
+            version: '3'
         },
         bondType: {
             cardId: 'bond-type-card',
